@@ -1,4 +1,4 @@
-package com.riwaq.reader
+package com.fernstack.riwaq
 
 import android.app.Activity
 import android.app.PendingIntent
@@ -23,7 +23,7 @@ import java.security.MessageDigest
 
 /**
  * In-app updates for sideloaded installs. Every member called from Rust over
- * JNI is @JvmStatic and kept by `-keep class com.riwaq.reader.AppUpdater { *; }`
+ * JNI is @JvmStatic and kept by `-keep class com.fernstack.riwaq.AppUpdater { *; }`
  * in proguard-rules.pro — R8 sees no bytecode caller for any of them.
  *
  * The download lives here, in plain Kotlin on its own thread, kept alive by

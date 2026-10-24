@@ -1,4 +1,4 @@
-package com.riwaq.reader
+package com.fernstack.riwaq
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

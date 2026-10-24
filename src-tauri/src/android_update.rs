@@ -4,7 +4,7 @@
 //! process. Desktop builds get stubs.
 //!
 //! The JNI descriptors below, the Kotlin signatures, the
-//! `-keep class com.riwaq.reader.AppUpdater { *; }` rule in
+//! `-keep class com.fernstack.riwaq.AppUpdater { *; }` rule in
 //! gen/android/app/proguard-rules.pro and the EXPECTED list in
 //! scripts/verify-jni-bridge.sh have to agree. When they drift, debug builds
 //! keep working and release builds lose the member.
@@ -13,7 +13,7 @@
 use jni::objects::{JClass, JObject, JString, JValue};
 
 #[cfg(target_os = "android")]
-const CLASS: &str = "com.riwaq.reader.AppUpdater";
+const CLASS: &str = "com.fernstack.riwaq.AppUpdater";
 
 #[cfg(target_os = "android")]
 type JniResult<T> = Result<T, Box<dyn std::error::Error>>;

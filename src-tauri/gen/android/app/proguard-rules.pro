@@ -29,7 +29,7 @@
 # ---------------------------------------------------------------------------
 
 # Rust -> Kotlin: DownloadNotifier.update(...) / cancel(...) called via JNI.
--keep class com.riwaq.reader.DownloadNotifier { *; }
+-keep class com.fernstack.riwaq.DownloadNotifier { *; }
 
 # Rust -> Kotlin: MainActivity.setBarAppearance(...) (static) and the static
 # pendingLaunchIntent field, both accessed via JNI. (The class itself is kept
@@ -40,7 +40,7 @@
 # exact signature, so widening the method without editing here compiles and
 # runs fine in debug, then dies only in release: R8 strips the now-unmatched
 # method, the JNI lookup throws, and the process aborts on the next JNI call.
--keepclassmembers class com.riwaq.reader.MainActivity {
+-keepclassmembers class com.fernstack.riwaq.MainActivity {
     public static void setBarAppearance(android.app.Activity, boolean, int);
     public static void setImmersiveMode(android.app.Activity, boolean);
     static java.lang.String pendingLaunchIntent;
@@ -50,7 +50,7 @@
 # Kotlin -> Rust: native method invoked from MainActivity.onCreate to register
 # the Activity with Rust (also covered by the default native-methods rule;
 # explicit here).
--keepclasseswithmembernames class com.riwaq.reader.MainActivity {
+-keepclasseswithmembernames class com.fernstack.riwaq.MainActivity {
     native <methods>;
 }
 
@@ -64,7 +64,7 @@
 #
 # Signatures MUST mirror the JNI descriptor in notify.rs
 # (`(Landroid/content/Context;)V`); see the MainActivity note above.
--keepclassmembers class com.riwaq.reader.TaskService {
+-keepclassmembers class com.fernstack.riwaq.TaskService {
     public static void start(android.content.Context);
     public static void stop(android.content.Context);
 }
@@ -77,13 +77,13 @@
 # `(Landroid/app/Activity;)V`. InstallResultReceiver and PackageReplacedReceiver
 # need no rule: they are manifest <receiver>s, which R8 keeps by name, and
 # they reach AppUpdater through ordinary bytecode calls, not JNI.
--keep class com.riwaq.reader.AppUpdater { *; }
+-keep class com.fernstack.riwaq.AppUpdater { *; }
 
 # JS -> Kotlin: the page reads the navigation bar's height through
 # addJavascriptInterface (MainActivity.InsetsBridge, exposed as RiwaqInsets).
 # Reached only by name from JavaScript, so R8 would rename or strip it in a
 # release build and the page would silently fall back to env(), which older
 # WebViews report as 0.
--keepclassmembers class com.riwaq.reader.MainActivity$InsetsBridge {
+-keepclassmembers class com.fernstack.riwaq.MainActivity$InsetsBridge {
     @android.webkit.JavascriptInterface <methods>;
 }

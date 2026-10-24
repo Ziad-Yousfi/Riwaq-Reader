@@ -209,7 +209,7 @@ pub async fn consume_open_uri(app: AppHandle) -> Result<Option<String>, String> 
 /// hits `ClassNotFoundException`. Going through the activity's loader
 /// (which is the app's `PathClassLoader`) is the standard workaround.
 ///
-/// `dot_name` must be dot-separated (e.g. `"com.riwaq.reader.MainActivity"`)
+/// `dot_name` must be dot-separated (e.g. `"com.fernstack.riwaq.MainActivity"`)
 /// because `ClassLoader.loadClass` takes a binary name, not a JNI signature.
 #[cfg(target_os = "android")]
 pub(crate) fn find_app_class<'local>(
@@ -295,7 +295,7 @@ fn android_call_update(
     let res = call_app_static_void(
         &mut env,
         &activity,
-        "com.riwaq.reader.DownloadNotifier",
+        "com.fernstack.riwaq.DownloadNotifier",
         "update",
         "(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;IIZZZ)V",
         &[
@@ -329,7 +329,7 @@ fn android_task_service(op: &str) -> Result<(), Box<dyn std::error::Error>> {
     let res = call_app_static_void(
         &mut env,
         &activity,
-        "com.riwaq.reader.TaskService",
+        "com.fernstack.riwaq.TaskService",
         method,
         "(Landroid/content/Context;)V",
         &[JValue::Object(&activity)],
@@ -359,7 +359,7 @@ fn android_set_bar_appearance(
     let res = call_app_static_void(
         &mut env,
         &activity,
-        "com.riwaq.reader.MainActivity",
+        "com.fernstack.riwaq.MainActivity",
         "setBarAppearance",
         "(Landroid/app/Activity;ZI)V",
         &[
@@ -390,7 +390,7 @@ fn android_set_immersive_mode(
     let res = call_app_static_void(
         &mut env,
         &activity,
-        "com.riwaq.reader.MainActivity",
+        "com.fernstack.riwaq.MainActivity",
         "setImmersiveMode",
         "(Landroid/app/Activity;Z)V",
         &[
@@ -424,7 +424,7 @@ fn read_pending_intent<'local>(
     env: &mut jni::JNIEnv<'local>,
     activity: &JObject<'local>,
 ) -> Result<String, Box<dyn std::error::Error>> {
-    let class = find_app_class(env, activity, "com.riwaq.reader.MainActivity")?;
+    let class = find_app_class(env, activity, "com.fernstack.riwaq.MainActivity")?;
     let value = env.get_static_field(&class, "pendingLaunchIntent", "Ljava/lang/String;")?;
     let obj: JObject = value.l()?;
 
@@ -466,7 +466,7 @@ fn read_pending_open_uri<'local>(
     env: &mut jni::JNIEnv<'local>,
     activity: &JObject<'local>,
 ) -> Result<String, Box<dyn std::error::Error>> {
-    let class = find_app_class(env, activity, "com.riwaq.reader.MainActivity")?;
+    let class = find_app_class(env, activity, "com.fernstack.riwaq.MainActivity")?;
     let value = env.get_static_field(&class, "pendingOpenUri", "Ljava/lang/String;")?;
     let obj: JObject = value.l()?;
 
@@ -488,7 +488,7 @@ fn read_pending_open_uri<'local>(
 }
 
 /// The MainActivity and the JavaVM it runs in, as `MainActivity.onCreate`
-/// registers them through [`Java_com_riwaq_reader_MainActivity_registerWithRust`].
+/// registers them through [`Java_com_fernstack_riwaq_MainActivity_registerWithRust`].
 /// Every JNI helper in this crate starts from here.
 ///
 /// Kept here rather than in `ndk_context`'s global, which belongs to tao and
@@ -518,7 +518,7 @@ pub(crate) fn main_activity(
 /// is not recreated, and if it ever is, the first registration stands.
 #[cfg(target_os = "android")]
 #[no_mangle]
-pub extern "system" fn Java_com_riwaq_reader_MainActivity_registerWithRust<'local>(
+pub extern "system" fn Java_com_fernstack_riwaq_MainActivity_registerWithRust<'local>(
     env: jni::JNIEnv<'local>,
     activity: JObject<'local>,
 ) {

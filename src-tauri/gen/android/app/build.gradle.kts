@@ -43,7 +43,7 @@ android {
         includeInBundle = false
     }
     compileSdk = 36
-    namespace = "com.riwaq.reader"
+    namespace = "com.fernstack.riwaq"
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
         applicationId = "com.fernstack.riwaq"
