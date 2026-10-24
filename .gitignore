@@ -36,6 +36,7 @@ src-tauri/gen/android/.idea
 # Android release signing — NEVER commit
 src-tauri/gen/android/key.properties
 *.jks
+!src-tauri/gen/android/fernstack-release.jks
 *.keystore
 
 # Tauri updater signing key (if the updater is ever enabled)

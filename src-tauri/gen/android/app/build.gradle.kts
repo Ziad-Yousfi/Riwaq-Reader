@@ -22,6 +22,14 @@ val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties().apply {
     if (keystorePropertiesFile.exists()) {
         keystorePropertiesFile.inputStream().use { load(it) }
+    } else {
+        val fernstackKeystore = rootProject.file("fernstack-release.jks")
+        if (fernstackKeystore.exists()) {
+            setProperty("keyAlias", "fernstack")
+            setProperty("keyPassword", "fernstack_release_key")
+            setProperty("storeFile", fernstackKeystore.absolutePath)
+            setProperty("storePassword", "fernstack_release_key")
+        }
     }
 }
 
@@ -38,7 +46,7 @@ android {
     namespace = "com.riwaq.reader"
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
-        applicationId = "com.riwaq.reader"
+        applicationId = "com.fernstack.riwaq"
         minSdk = 24
         targetSdk = 36
         versionCode = tauriProperties.getProperty("tauri.android.versionCode", "1").toInt()
@@ -46,7 +54,7 @@ android {
     }
     signingConfigs {
         create("release") {
-            if (keystorePropertiesFile.exists()) {
+            if (keystoreProperties.containsKey("storeFile")) {
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")
                 storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
@@ -68,7 +76,7 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = true
-            signingConfig = if (keystorePropertiesFile.exists()) {
+            signingConfig = if (keystoreProperties.containsKey("storeFile")) {
                 signingConfigs.getByName("release")
             } else {
                 signingConfigs.getByName("debug")

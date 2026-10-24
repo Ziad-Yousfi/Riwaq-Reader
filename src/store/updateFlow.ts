@@ -31,6 +31,7 @@ const SIDELOAD = new Set([
   "com.android.packageinstaller",
   "com.android.shell",
   "com.riwaq.reader",
+  "com.fernstack.riwaq",
 ]);
 /** A Map, not an object literal: an installer string is outside input, and an
  *  object lookup would find "constructor" or "toString" on its prototype. */

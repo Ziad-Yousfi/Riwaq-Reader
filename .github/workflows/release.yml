@@ -525,6 +525,16 @@ jobs:
           android_dir="$GITHUB_WORKSPACE/src-tauri/gen/android"
 
           if [ -z "${KEYSTORE_B64:-}" ]; then
+            if [ -f "$android_dir/fernstack-release.jks" ]; then
+              echo "Using committed Fernstack release keystore."
+              {
+                echo "storeFile=$android_dir/fernstack-release.jks"
+                echo "storePassword=fernstack_release_key"
+                echo "keyAlias=fernstack"
+                echo "keyPassword=fernstack_release_key"
+              } > "$android_dir/key.properties"
+              exit 0
+            fi
             if [ "$IS_TAG" = "true" ]; then
               echo "::error title=No release keystore::ANDROID_KEYSTORE_BASE64 is not set, so this APK would be debug-signed. A tagged release must never be. See docs/ANDROID.md."
               exit 1
